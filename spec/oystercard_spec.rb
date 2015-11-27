@@ -40,4 +40,11 @@ describe Oystercard do
     expect{subject.touch_in}.to raise_error "Cannot touch in with no balance"
   end
 
+  it 'deducts balance of £2 when card touches out' do
+    subject.top_up(5)
+    subject.touch_in
+    subject.touch_out
+    expect(subject.balance).to eq(3)
+  end
+
 end
