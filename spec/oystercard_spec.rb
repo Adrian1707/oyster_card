@@ -29,6 +29,13 @@ describe Oystercard do
     expect(subject.in_journey).to eq(true)
   end
 
+  it 'when card touches out, in_journey is set to false' do
+    subject.top_up(5)
+    subject.touch_in
+    subject.touch_out
+    expect(subject.in_journey).to eq(false)
+  end
+
   it 'cannot touch in if balance is 0' do
     expect{subject.touch_in}.to raise_error "Cannot touch in with no balance"
   end

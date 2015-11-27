@@ -20,8 +20,12 @@ class Oystercard
   end
 
   def touch_in
-    raise "Cannot touch in with no balance" if @balance == 0 
+    raise "Cannot touch in with no balance" if @balance == 0
     @in_journey = true
+  end
+
+  def touch_out
+    @in_journey = false
   end
 
 
