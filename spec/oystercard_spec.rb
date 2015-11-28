@@ -2,7 +2,7 @@ require 'Oystercard'
 
 describe Oystercard do
 
-  let(:station_name) { double(:station_name) }
+  let(:entry_station) { double(:entry_station) }
 
   it 'is initialized with a balance of £0' do
     expect(subject.balance).to eq(0)
@@ -15,7 +15,7 @@ describe Oystercard do
 
   it 'when card touches in, in_journey is set to true' do
     subject.top_up(5)
-    subject.touch_in(station_name)
+    subject.touch_in(entry_station)
     expect(subject.in_journey).to eq(true)
   end
 
@@ -29,7 +29,7 @@ describe Oystercard do
 
     before do
       subject.top_up(5)
-      subject.touch_in(station_name)
+      subject.touch_in(entry_station)
       subject.touch_out
     end
 
@@ -46,7 +46,7 @@ describe Oystercard do
   it 'cannot touch in if balance is 0' do
     minimum_balance = Oystercard::MINIMUM_BALANCE
     subject.top_up(minimum_balance-1)
-    expect{subject.touch_in(station_name)}.to raise_error "Cannot touch in with balance less then £2"
+    expect{subject.touch_in(entry_station)}.to raise_error "Cannot touch in with balance less then £2"
   end
 
   it 'cannot touch out if not in journey' do
@@ -54,11 +54,23 @@ describe Oystercard do
     expect{subject.touch_out}.to raise_error "Cannot top out if not in journey"
   end
 
+  context 'storing entry station' do
+
+    before do
+      subject.top_up(5)
+      subject.touch_in(entry_station)
+    end
+
+
   it 'should rememember the station name after touch in' do
-    subject.top_up(5)
-    subject.touch_in(station_name)
-    expect(subject.station_name).to eq(station_name)
+    expect(subject.entry_station).to eq(entry_station)
   end
 
+  it 'should forget entry station when touching out' do
+    subject.touch_out
+    expect(subject.entry_station).to eq(nil)
+  end
+
+end
 
 end

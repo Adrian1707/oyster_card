@@ -1,6 +1,6 @@
 class Oystercard
 
-  attr_reader :balance, :in_journey, :station_name
+  attr_reader :balance, :in_journey, :entry_station
 
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 2
@@ -17,14 +17,15 @@ class Oystercard
     @balance += amount
   end
 
-  def touch_in(station_name)
+  def touch_in(entry_station)
     raise "Cannot touch in with balance less then £2" if @balance < @min_balance
     @in_journey = true
-    @station_name = station_name
+    @entry_station = entry_station
   end
 
   def touch_out
     raise "Cannot top out if not in journey" if @in_journey == false
+    @entry_station = nil 
     @in_journey = false
     deduct(2)
   end
