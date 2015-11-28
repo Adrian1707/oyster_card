@@ -3,6 +3,7 @@ require 'Oystercard'
 describe Oystercard do
 
   let(:entry_station) { double(:entry_station) }
+  let(:exit_station) { double(:exit_station) }
 
   it 'is initialized with a balance of £0' do
     expect(subject.balance).to eq(0)
@@ -30,7 +31,7 @@ describe Oystercard do
     before do
       subject.top_up(5)
       subject.touch_in(entry_station)
-      subject.touch_out
+      subject.touch_out(exit_station)
     end
 
     it 'in_journey is set to false' do
@@ -51,26 +52,34 @@ describe Oystercard do
 
   it 'cannot touch out if not in journey' do
     subject.top_up(5)
-    expect{subject.touch_out}.to raise_error "Cannot top out if not in journey"
+    expect{subject.touch_out(exit_station)}.to raise_error "Cannot top out if not in journey"
   end
 
   context 'storing entry station' do
 
-    before do
-      subject.top_up(5)
-      subject.touch_in(entry_station)
-    end
-
+  before do
+    subject.top_up(5)
+    subject.touch_in(entry_station)
+  end
 
   it 'should rememember the station name after touch in' do
     expect(subject.entry_station).to eq(entry_station)
   end
 
   it 'should forget entry station when touching out' do
-    subject.touch_out
+    subject.touch_out(exit_station)
     expect(subject.entry_station).to eq(nil)
   end
 
 end
+
+  it 'should store my history of journeys' do
+    subject.top_up(5)
+    subject.touch_in(:moorgate)
+    subject.touch_out(:angel)
+    subject.touch_in(:camden)
+    subject.touch_out(:farringdon)
+    expect(subject.journeys).to eq([:moorgate, :angel, :camden, :farringdon])
+  end
 
 end
