@@ -1,4 +1,4 @@
-require 'station'
+require 'Station'
 
 describe Station do
 

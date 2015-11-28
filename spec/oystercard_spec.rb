@@ -2,8 +2,9 @@ require 'Oystercard'
 
 describe Oystercard do
 
-  let(:entry_station) { double(:entry_station) }
-  let(:exit_station) { double(:exit_station) }
+  let(:entry_station) { double(:station) }
+  let(:exit_station) { double(:station) }
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
   it 'is initialized with a balance of £0' do
     expect(subject.balance).to eq(0)
@@ -77,9 +78,7 @@ end
     subject.top_up(5)
     subject.touch_in(:moorgate)
     subject.touch_out(:angel)
-    subject.touch_in(:camden)
-    subject.touch_out(:farringdon)
-    expect(subject.journeys).to eq([:moorgate, :angel, :camden, :farringdon])
+    expect(subject.journeys).to include journey
   end
 
 end
