@@ -2,6 +2,8 @@ require 'Oystercard'
 
 describe Oystercard do
 
+  let(:station_name) { double(:station_name) }
+
   it 'is initialized with a balance of £0' do
     expect(subject.balance).to eq(0)
   end
@@ -13,7 +15,7 @@ describe Oystercard do
 
   it 'when card touches in, in_journey is set to true' do
     subject.top_up(5)
-    subject.touch_in
+    subject.touch_in(station_name)
     expect(subject.in_journey).to eq(true)
   end
 
@@ -27,7 +29,7 @@ describe Oystercard do
 
     before do
       subject.top_up(5)
-      subject.touch_in
+      subject.touch_in(station_name)
       subject.touch_out
     end
 
@@ -44,12 +46,18 @@ describe Oystercard do
   it 'cannot touch in if balance is 0' do
     minimum_balance = Oystercard::MINIMUM_BALANCE
     subject.top_up(minimum_balance-1)
-    expect{subject.touch_in}.to raise_error "Cannot touch in with balance less then £2"
+    expect{subject.touch_in(station_name)}.to raise_error "Cannot touch in with balance less then £2"
   end
 
   it 'cannot touch out if not in journey' do
     subject.top_up(5)
     expect{subject.touch_out}.to raise_error "Cannot top out if not in journey"
+  end
+
+  it 'should rememember the station name after touch in' do
+    subject.top_up(5)
+    subject.touch_in(station_name)
+    expect(subject.station_name).to eq(station_name)
   end
 
 
