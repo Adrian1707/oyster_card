@@ -17,22 +17,22 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
-
   def touch_in
     raise "Cannot touch in with balance less then £2" if @balance < @min_balance
     @in_journey = true
   end
 
   def touch_out
-    raise "Cannot top out if not in journey" if @in_journey = false
+    raise "Cannot top out if not in journey" if @in_journey == false
     @in_journey = false
     deduct(2)
   end
 
+  private
 
+  def deduct(amount)
+    @balance -= amount
+  end
 
 
 end

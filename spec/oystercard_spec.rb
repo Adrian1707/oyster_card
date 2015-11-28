@@ -11,12 +11,6 @@ describe Oystercard do
     expect(subject.balance).to eq(5)
   end
 
-  it 'reduces the balance when deduct method is called' do
-    subject.top_up(5)
-    subject.deduct(1)
-    expect(subject.balance).to eq(4)
-  end
-
   it 'when card touches in, in_journey is set to true' do
     subject.top_up(5)
     subject.touch_in
