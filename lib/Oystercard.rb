@@ -22,14 +22,14 @@ class Oystercard
     raise "Cannot touch in with balance less then £2" if @balance < @min_balance
     @in_journey = true
     @entry_station = entry_station
-    @journeys.merge(entry_station: entry_station)
+    @journeys.merge(entry_station: @entry_station)
   end
 
   def touch_out(exit_station)
     raise "Cannot top out if not in journey" if @in_journey == false
     @entry_station = nil
     @in_journey = false
-    @journeys.merge(exit_station: exit_station)
+    @journeys.merge(exit_station: @exit_station)
     deduct(@min_balance)
   end
 
