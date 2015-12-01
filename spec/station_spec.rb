@@ -2,11 +2,14 @@ require 'Station'
 
 describe Station do
 
-  # let(:card) {double(:card)}
+  let(:station) {Station.new("moorgate", 1)}
 
   it 'should have a name when initialised' do
-    station = Station.new(:moorgate)
-    expect(station.name).to eq(:moorgate)
+    expect(station.name).to eq("moorgate")
+  end
+
+  it 'should have a zone when initialised' do
+    expect(station.zone).to eq(1)
   end
 
 end
