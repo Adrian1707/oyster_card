@@ -3,7 +3,7 @@ require 'Station'
 describe Station do
 
   let(:station) {Station.new("moorgate", 1)}
-
+  
   it 'should have a name when initialised' do
     expect(station.name).to eq("moorgate")
   end

@@ -20,8 +20,8 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Cannot touch in with balance less then £2" if @balance < @min_balance
-    @in_journey = true
     @entry_station = entry_station
+    @in_journey = true
     @journeys[:entry_station] = entry_station
   end
 
