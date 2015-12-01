@@ -76,8 +76,8 @@ end
 
   it 'should store my history of journeys' do
     subject.top_up(5)
-    subject.touch_in(:moorgate)
-    subject.touch_out(:angel)
+    subject.touch_in(entry_station)
+    subject.touch_out(exit_station)
     expect(subject.journeys).to include journey
   end
 
